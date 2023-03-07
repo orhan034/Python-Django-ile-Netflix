@@ -1,0 +1,182 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block css %}
+<style>
+    body, html {
+        color: black;
+        background-color: beige;
+    }
+    a {
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+    .container {
+        margin-top: 100px;
+    }
+    .accordion, .panel {
+        background-color: rgba(34, 34, 34, 0);
+        color: black;
+    }
+</style>
+{% endblock css %}
+    
+
+{% block body %}
+<!-- Hesap -->
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+            <div class="row">
+                <h1>Hesap</h1>
+                <hr>
+                <div class="col">
+                    <h4>Üyelik ve Ödemeler</h4>
+                    <button>Üyeliği iptal et</button>
+                </div>
+                <div class="col">
+                    <strong>{{ request.user.email }}</strong>
+                    <p>Parola: ****{{ userinfo.password|last }}</p>
+                    <p>tel: {{ userinfo.phone_number }}</p>
+                </div>
+                <div class="col">
+                    <div class="col-12 my-1">
+                        <!-- Button trigger modal -->
+                        <a type="button" class="" data-bs-toggle="modal" data-bs-target="#modalEmail">
+                            E-postayi değiştir 
+                        </a>
+                    
+                        <!-- Modal -->
+                        <div class="modal fade" id="modalEmail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Email Change</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST">
+                                            {% csrf_token %}
+                                            <input type="text" name="email" class="form-control mt-2" placeholder="Email">
+                                            <button type="submit" name="formbutton" value="emailChange"
+                                                class="btn btn-primary mt-2">Kaydet</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 my-1">
+                        <!-- Button trigger modal -->
+                        <a type="button" class="" data-bs-toggle="modal" data-bs-target="#modalPassword">
+                            Parolayı değiştir 
+                        </a>
+                    
+                        <!-- Modal -->
+                        <div class="modal fade" id="modalPassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Password Change</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST">
+                                            {% csrf_token %}
+                                            <input type="text" name="password" class="form-control mt-2" placeholder="Old Password">
+                                            <input type="text" name="password1" class="form-control mt-2" placeholder="New Password">
+                                            <input type="text" name="password2" class="form-control mt-2" placeholder="Re New Password">
+                                            <button type="submit" name="formbutton" value="passwordChange"
+                                                class="btn btn-primary mt-2">Kaydet</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 my-1">
+                        <!-- Button trigger modal -->
+                        <a type="button" class="" data-bs-toggle="modal" data-bs-target="#modalAddress">
+                            Numarayı değiştir 
+                        </a>
+                    
+                        <!-- Modal -->
+                        <div class="modal fade" id="modalAddress" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Address Change</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST">
+                                            {% csrf_token %}
+                                            <textarea name="address" class="form-control" id="" cols="30" rows="4">{{ userinfo.adress }}</textarea>
+                                            <button type="submit" name="formbutton" value="addressChange"
+                                                class="btn btn-primary mt-2">Kaydet</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="row">
+                <hr>
+                <div class="col">
+                    <h4>Ayarlar</h4>
+                </div>
+
+                <div class="col">
+                    <a href="">18+ İçerik</a> <br>
+                    <a href="">Teste katılın</a> <br>
+                    <a href="">İçerik indirilen cihazları yönet</a>
+                </div>
+            </div>
+
+            <div class="row">
+                <hr>
+                <div class="col">
+                    <h4>Profil ve ebeveyn kontrolleri</h4>
+                </div>
+
+
+                <div class="col">
+                    
+                    {% for i in profils %}
+                    <div class="accordion-item bg-dark text-white rounded">
+                        <button class="accordion text-white p-2" data-bs-toggle="collapse" data-bs-target="#collap{{ i.id }}"
+                                        aria-expanded="false" aria-controls="collap{{ i.id }}">
+                            <img style="width: 40px; height: 40px; border-radius: 50%;" src="{{ i.image.url }}" alt=""> {{ i.name }}
+                        </button>
+                        <div id="collap{{ i.id }}" class="accordion-collapse collapse p-2" aria-labelledby="headingOne"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body ps-5">
+                               
+                                <strong>This is the first item's accordion body.</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    {% endfor %}
+                        
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock body %}
+
+
+

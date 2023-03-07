@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+    <style>
+        .container h5{
+            background-color: rgb(40, 41, 41);
+            padding: 2px;
+            color: white;
+            text-align: center;
+            margin:0;
+        }
+        .container h6{
+            margin: 0;
+            padding: 5px;
+            color: white;
+            background-color: rgb(130, 132, 132);
+        }
+    </style>
+{% endblock css %}
+
+{% block body %}
+<!-- Hero image -->
+<div class="hero-image">
+
+  <div class="hero-text">
+      <h1>Sınırsız film, dizi ve çok daha fazlası.</h1>
+      <h4>İstediğiniz yerde izleyin. İstediğiniz zaman iptal edin.</h4>
+      <p>İzlemeye hazır mısınız? Üyelik oluşturmak veya üyeliğinze erişmek için e-posta adresinizi girin</p>
+
+      <button class="btn btn-secondary btn-lg mt-3">Oynat</button>
+      <button class="btn btn-secondary btn-lg mt-3">Daha Fazla Bilgi</button>
+  </div>
+
+</div>
+
+<div class="container">
+    <div class="row mt-5">
+
+      <h3 class="text-light">Netflix'te Popüler</h3>
+      
+      {% for i in en_populer %}
+      <div class="col-md-2 col-4 mt-1 mb-3">
+        <a href="#">
+            <img style="height:92px; object-fit:cover;" src="{{ i.image.url }}" class="w-100" alt="">
+        </a>
+        <h5>{{ i.name }}</h5>
+        <h6>{{ i.text|truncatechars:52 }}</h6>
+        <h6>Tür: {{ i.tur }}</h6>
+        <h6>IMDb: {{ i.imdb }}</h6>
+        <h6>Yapım Yılı: {{ i.date_now }}</h6>
+      </div>
+      {% endfor %}
+        
+      <h3 class="text-light">Netflix'te En Çok İzleneler</h3>
+      
+      {% for i in en_cok_goruntulenen %}
+      <div class="col-md-2 col-4 mt-1 mb-3">
+        <a href="#">
+            <img style="height:92px; object-fit:cover;" src="{{ i.image.url }}" class="w-100" alt="">
+        </a>
+        <h5>{{ i.name }}</h5>
+        <h6>{{ i.text|truncatechars:52 }}</h6>
+        <h6>Tür: {{ i.tur }}</h6>
+        <h6>IMDb: {{ i.imdb }}</h6>
+        <h6>Yapım Yılı: {{ i.date_now }}</h6>
+      </div>
+      {% endfor %}
+        
+      
+
+    </div>
+
+</div>
+    
+{% endblock body %}
+    
+
+
